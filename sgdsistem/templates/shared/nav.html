@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+    <link href="https://framework-gb.cdn.gob.mx/gm/v4/image/favicon.ico" rel="shortcut icon">
+    <title>{% block titulo %} {% endblock %}</title>
+  {% load static%}
+</head>
+<body>
+    <nav class="navbar navbar-inverse sub-navbar navbar-fixed-top">
+        <div class="container">
+          <!-- Logo y botón de colapso para móviles -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#subenlaces">
+              <span class="sr-only">Interruptor de Navegación</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <p>Bienvenido: {{ user.name }}</p>
+          </div>
+          <!-- Menú desplegable que se colapsa en pantallas grandes -->
+          <div class="collapse navbar-collapse" id="subenlaces">
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="{% url 'principal'%}">Inicio</a></li>
+              <li><a href="{% url 'Inmuebles_home'%}">Consulta de Inmuebles</a></li>
+              <li><a href="/consulta-inmuebles/">Consulta de Nominas</a></li>
+              <li><a href="/personas/">Personas</a></li>
+              <li><a href="/" class="text-danger">Salir</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+      
+      <style>
+        /* Estilo general para los select inputs */
+select {
+  appearance: none;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    padding: .7rem 1rem;
+    font-size: 1.8rem;
+    color: #495057;
+    width: 100%;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Estilo al enfocar */
+select:focus {
+  border-color: #80bdff; /* Borde azul */
+  outline: none; /* Elimina el contorno predeterminado */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra azul clara */
+}
+
+/* Estilo para el icono de flecha (solo visible en algunos navegadores) */
+select::-ms-expand {
+  display: none; /* Oculta el icono en IE/Edge */
+}
+
+/* Para select inputs en dispositivos móviles */
+@media (max-width: 576px) {
+  select {
+    font-size: 0.9rem; /* Ajusta el tamaño de la fuente */
+  }
+}
+
+      </style>
+
+
+    {% block content %}
+
+
+    {% endblock %}
+    
+</body>
+<script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
+</html>

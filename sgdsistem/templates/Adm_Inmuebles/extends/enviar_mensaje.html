@@ -1,0 +1,184 @@
+<div class="tab-content  fadeIn" id="tab-mensajes">
+    <div class="section">
+
+        <div class="container">
+            <h2 id="toggle-tasks" style="cursor: pointer;">Tareas Pendientes {{ task.mensajes.all|length }} <i
+                    class="fas fa-chevron-down"></i></h2>
+            <button
+                style="display: grid; margin: 0 auto; position: relative; top: -5em; left: 38%;width: 23%; font-size: 12px;"
+                type="button" class="btn btn-primary msjbtn" data-toggle="modal" data-target="#nuevoMensajeModal">
+                Crear tarea
+            </button>
+            <div class="row" id="tasks-container" style="display: none;">
+                {% for mensaje in task.mensajes.all|dictsort:"estado" %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow mb-5 bg-body-tertiary rounded">
+                        <div class="card-header" style="display: flex; background-color:#691c32; color:aliceblue ">
+                            {{ mensaje.asunto }}
+                        </div>
+                        <div class="card-body">
+                            <p>Enviado por: <span class="badge bg-primary"> {{ mensaje.enviado_por_imp }}</span> Para:
+                                <span class="badge bg-success"> {{ mensaje.enviar_a_imp }} </span>
+                            </p>
+                            <p class="card-text"><strong>Mensaje: </strong><br>{{ mensaje.mensaje }}</p>
+                            {% if mensaje.enlace %}
+                            <a href="{{ mensaje.enlace }}" target="_blank">Ir a One Drive</a>
+                            {% endif %}
+                            <br><br><br>
+
+                            <p style="font-size: 12px; text-align: right;"><strong>Recibido: </strong>
+                                {{ mensaje.fecha_envio|date:'D j/M/Y' }}</p>
+
+                        </div>
+                        <div style="background-color: #00000000;" class="card-footer">
+
+
+                            {% if mensaje.estado != 'completado' %}
+                            <button class="btn btn-outline-success btn-sm"
+                                onclick="completarMensaje('{{ mensaje.id }}')">Completar</button>
+                            {% endif %}
+                            Estatus: {{ mensaje.estado }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Modal de Mensaje nuevo -->
+        <div class="modal fade mobilemodal" id="nuevoMensajeModal" tabindex="1" role="dialog"
+            aria-labelledby="nuevoMensajeModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="nuevoMensajeModalLabel">Mensaje nuevo</h5>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="form-container" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_mensaje-asunto">Asunto:</label>
+                                <input type="text" name="mensaje-asunto" maxlength="100" required=""
+                                    id="id_mensaje-asunto" class="form-control shadow-sm"
+                                    placeholder="Ingrese el asunto">
+                            </div>
+                            <div class="form-group">
+                                <label for="id_mensaje-mensaje">Mensaje:</label>
+                                <textarea name="mensaje-mensaje" cols="40" rows="10" required="" id="id_mensaje-mensaje"
+                                    class="form-control shadow-sm" placeholder="Escriba su mensaje aquí"></textarea>
+                            </div>
+                            <div class="form-group form-check-inline">
+                                <label for="{{ mensaje_form.enviar_a_imp.id_for_label }}">Enviar A:</label>
+                                {{ mensaje_form.enviar_a_imp }}
+                            </div>
+                            <div class="form-group form-check-inline">
+                                <label for="id_mensaje-estado">Estatus:</label>
+                                <select name="mensaje-estado" id="id_mensaje-estado" class="form-select shadow-sm">
+                                    <option value="Completado">Completado</option>
+                                    <option value="En Revisión">En Revisión</option>
+                                    <option value="No Completado" selected="">No Completado</option>
+                                </select>
+                            </div>
+                            <div class="form-group form-check-inline">
+                                <label for="id_mensaje-enlace">En caso de requerirse, agregue enlace a OneDrive:</label>
+                                <input type="text" name="mensaje-enlace" maxlength="100" id="id_mensaje-enlace"
+                                    class="form-control shadow-sm" placeholder="URL opcional">
+                            </div>
+                            <button class="btn btn-outline-success" type="submit">Enviar mensaje</button>
+
+                            <!-- Loader y mensaje de éxito -->
+                            <div id="loading-message" class="mt-3" style="display: none; text-align: center;">
+                                <div class="spinner-border" role="status">
+                                    <span class="visually-hidden">Cargando...</span>
+                                </div>
+                                <div class="alert alert-success mt-2" id="success-message" style="display: none;">
+                                    Mensaje enviado exitosamente!
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <script>
+            document.getElementById('form-container').onsubmit = function () {
+                // Mostrar el mensaje de carga
+                document.getElementById('loading-message').style.display = 'block';
+
+                // Opcional: Deshabilitar el botón para evitar múltiples envíos
+                const submitButton = this.querySelector('button[type="submit"]');
+                submitButton.disabled = true;
+
+                // Aquí puedes agregar una función para ocultar el mensaje después de un tiempo
+                setTimeout(function () {
+                    document.getElementById('loading-message').style.display = 'none';
+                    submitButton.disabled = false; // Reactivar el botón si es necesario
+                }, 3000); // Ocultar el mensaje después de 3 segundos
+            };
+        </script>
+
+        <style>
+            /* Estilos personalizados para el modal y el formulario */
+            .modal-content {
+                border-radius: 12px;
+                overflow: hidden;
+            }
+
+            .modal-title {
+                color: white !important;
+            }
+
+            .modal-header {
+                background-color: #691c32 !important;
+            }
+
+            .modal-header .modal-title {
+                font-weight: 600;
+                font-size: 1.25rem;
+            }
+
+            .modal-body {
+                background-color: #f8fafc;
+            }
+
+            .form-label {
+                font-weight: 500;
+                color: #555;
+            }
+
+            .form-control,
+            .form-select {
+                border-radius: 8px;
+                border: 1px solid #d1d5db;
+                padding: 10px;
+                font-size: 1rem;
+            }
+
+            .form-control:focus,
+            .form-select:focus {
+                border-color: #4a69bd;
+                box-shadow: 0 0 5px rgba(74, 105, 189, 0.25);
+            }
+
+            .btn-primary {
+                background-color: #4a69bd;
+                border: none;
+                transition: background-color 0.3s ease;
+            }
+
+            .btn-primary:hover {
+                background-color: #365690;
+            }
+
+            .btn-close {
+                box-shadow: none;
+                opacity: 0.8;
+            }
+
+            .btn-close:hover {
+                opacity: 1;
+            }
+        </style>

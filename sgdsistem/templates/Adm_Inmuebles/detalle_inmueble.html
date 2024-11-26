@@ -1,0 +1,228 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %} Detalle del Inmueble {% endblock %}
+
+{% block content %}
+  <div class="container" style="margin-top: 5em; margin-bottom: 5em;">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="text">Detalles del Inmueble: {{ task.CV_CCT }}</h3>
+        <hr class="red">
+      </div>
+      {{ error }}
+      
+      <!-- Formulario para los detalles del inmueble -->
+      <form method="post" action="{% url 'Detalle_inmueble' task.id %}" enctype="multipart/form-data" class="task-form" id="form_detail">
+        {% csrf_token %}
+        <div class="task-form-container">
+          <!-- Pestañas de navegación -->
+          <div class="tabs" role="tablist">
+            <div class="tab active" data-tab="tab-Generales" role="tab" tabindex="0" aria-controls="tab-Generales" aria-selected="true">Datos Generales</div>
+            <div class="tab" data-tab="tab-encabezado" role="tab" tabindex="0" aria-controls="tab-encabezado">Encabezado</div>
+            <div class="tab" data-tab="tab-inmueble" role="tab" tabindex="0" aria-controls="tab-inmueble">Datos del Inmueble</div>
+            <div class="tab" data-tab="tab-ubicacion" role="tab" tabindex="0" aria-controls="tab-ubicacion">Ubicación del Inmueble</div>
+            <div class="tab" data-tab="tab-sostenimiento" role="tab" tabindex="0" aria-controls="tab-sostenimiento">Sostenimiento</div>
+            <div class="tab" data-tab="tab-contacto" role="tab" tabindex="0" aria-controls="tab-contacto">Contacto</div>
+          </div>
+
+          <!-- Contenido de las pestañas -->
+          <div class="tab-content">
+            <div class="tab-content-item" data-tab="tab-Generales" role="tabpanel" id="tab-Generales" aria-labelledby="tab-Generales" style="display:block;">
+              {% include 'Adm_Inmuebles/extends/datos_generales.html' %}
+            </div>
+            <div class="tab-content-item" data-tab="tab-encabezado" role="tabpanel" id="tab-encabezado" aria-labelledby="tab-encabezado" style="display:none;">
+              {% include 'Adm_Inmuebles/extends/encabezado.html' %}
+            </div>
+            <div class="tab-content-item" data-tab="tab-inmueble" role="tabpanel" id="tab-inmueble" aria-labelledby="tab-inmueble" style="display:none;">
+              {% include 'Adm_Inmuebles/extends/datos_inmueble.html' %}
+            </div>
+            <div class="tab-content-item" data-tab="tab-ubicacion" role="tabpanel" id="tab-ubicacion" aria-labelledby="tab-ubicacion" style="display:none;">
+              {% include 'Adm_Inmuebles/extends/ubicacion.html' %}
+            </div>
+            <div class="tab-content-item" data-tab="tab-sostenimiento" role="tabpanel" id="tab-sostenimiento" aria-labelledby="tab-sostenimiento" style="display:none;">
+              {% include 'Adm_Inmuebles/extends/sostenimiento.html' %}
+            </div>
+            <div class="tab-content-item" data-tab="tab-contacto" role="tabpanel" id="tab-contacto" aria-labelledby="tab-contacto" style="display:none;">
+              {% include 'Adm_Inmuebles/extends/contacto.html' %}
+            </div>
+          </div>
+
+          <!-- Botón para guardar cambios -->
+          <button type="button" class="btn btn-primary actualizar" onclick="mostrarModal()">Guardar Cambios</button>
+          <a href="{% url 'Inmuebles_home' %}" class="btn btn-default">Cancelar</a>
+        </div>
+      </form>
+    </div>
+    <hr class="red">
+  </div>
+  
+  <!-- Modal de Confirmación -->
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="cerrarModal()">&times;</span>
+      <h3>¿Estás seguro de que quieres guardar los cambios?</h3>
+      <div class="modal-actions">
+        <button class="btn btn-primary" onclick="guardarCambios()">Aceptar</button>
+        <button class="btn btn-default" onclick="cerrarModal()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function mostrarModal() {
+      document.getElementById('confirmModal').style.display = 'block';
+    }
+
+    function cerrarModal() {
+      document.getElementById('confirmModal').style.display = 'none';
+    }
+
+    function guardarCambios() {
+      document.getElementById('form_detail').submit();
+    }
+
+    // Manejo de las pestañas
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function () {
+        document.querySelectorAll('.tab').forEach(tab => {
+          tab.classList.remove('active');
+          tab.setAttribute('aria-selected', 'false');
+        });
+
+        tab.classList.add('active');
+        tab.setAttribute('aria-selected', 'true');
+
+        document.querySelectorAll('.tab-content-item').forEach(contentItem => {
+          contentItem.style.display = 'none';
+        });
+        document.querySelector(`#${tab.getAttribute('aria-controls')}`).style.display = 'block';
+      });
+    });
+
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('keydown', function(event) {
+        if (event.key === 'Tab') {
+          let tabs = Array.from(document.querySelectorAll('.tab'));
+          let index = tabs.indexOf(tab);
+          
+          if (event.shiftKey) {
+            if (index > 0) {
+              tabs[index - 1].focus();
+            }
+          } else {
+            if (index < tabs.length - 1) {
+              tabs[index + 1].focus();
+            }
+          }
+        }
+      });
+    });
+
+    document.querySelector('.tab').click();
+  </script>
+
+  <style>
+    /* Estilo general de las pestañas */
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #ddd;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      text-align: center;
+      border: 1px solid transparent;
+      border-radius: 5px 5px 0 0;
+      transition: background-color 0.3s, color 0.3s;
+      flex: 1;
+    }
+
+    .tab:hover {
+      background-color: #f0f0f0;
+    }
+
+    .tab.active {
+      background-color: #611232;
+      color: white;
+    }
+
+    .tab:focus {
+      outline: none;
+    }
+
+    /* Estilo de contenido de las pestañas */
+    .tab-content {
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 0 0 5px 5px;
+      background-color: #f9f9f9;
+    }
+
+    .tab-content-item {
+      display: none;
+    }
+
+    .tab-content-item.active {
+      display: block;
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding-top: 60px;
+    }
+
+    .modal-content {
+      background-color: white;
+      margin: auto;
+      padding: 20px;
+      width: 30%;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .close-btn {
+      color: #aaa;
+      font-size: 28px;
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      cursor: pointer;
+    }
+
+    .modal-actions {
+      margin-top: 20px;
+    }
+
+    /* Responsividad */
+    @media (max-width: 768px) {
+      .modal-content {
+        width: 80%;
+      }
+
+      .tabs {
+        flex-direction: column;
+      }
+
+      .tab {
+        flex: none;
+        width: 100%;
+      }
+
+      .tab-content {
+        padding: 10px;
+      }
+    }
+  </style>
+{% endblock %}

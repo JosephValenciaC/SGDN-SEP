@@ -1,0 +1,193 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+{% load static %}
+{% if messages %}
+  <div class="container mt-3">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+  <div class="login-box shadow-lg p-4 bg-light rounded">
+    <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
+    <form action="/signin/" method="POST">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="username" class="form-label">Usuario</label>
+        <input type="text" name="username" id="username" placeholder="Ingrese su usuario" required class="form-control form-control-sm">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Contraseña</label>
+        <div class="input-group">
+          <input type="password" name="password" id="password" placeholder="Ingrese su contraseña" required class="form-control form-control-sm">
+          <span class="input-group-text" id="toggle-password">
+            <i class="fas fa-eye"></i>
+          </span>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+
+      {% if error %}
+        <script>
+          swal("Usuario o Contraseña Incorrecta", "Por favor, ingrese sus credenciales nuevamente", "error");
+        </script>
+      {% endif %}
+    </form>
+    
+    <div class="text-center mt-3">
+      <a href="#" class="text-muted">¿Olvidaste tu contraseña?</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Toggle password visibility
+  document.getElementById('toggle-password').addEventListener('click', function() {
+    const passwordField = document.getElementById('password');
+    const icon = this.querySelector('i');
+
+    if (passwordField.type === 'password') {
+      passwordField.type = 'text';
+      icon.classList.remove('fa-eye');
+      icon.classList.add('fa-eye-slash');
+    } else {
+      passwordField.type = 'password';
+      icon.classList.remove('fa-eye-slash');
+      icon.classList.add('fa-eye');
+    }
+  });
+
+  // CSRF Token
+  document.addEventListener('DOMContentLoaded', function() {
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+    fetch("/logout/", {
+      method: 'POST',
+      headers: {
+        'X-CSRFToken': csrftoken,
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'XMLHttpRequest'
+      },
+      credentials: 'same-origin'
+    })
+    .then(response => {
+      if (response.ok) {
+        console.log('Sesión cerrada con éxito');
+      } else {
+        console.error('Error al cerrar sesión');
+      }
+    })
+    .catch(error => {
+      console.error('Error al cerrar sesión:', error);
+    });
+  });
+</script>
+
+<script>
+  document.getElementById('sitio-select').addEventListener('change', function() {
+    var selectedOption = this.value;
+    if (selectedOption) {
+      window.location.href = selectedOption;
+    }
+  });
+</script>
+
+<style>
+  /* Establecer la imagen de fondo */
+  body {
+    background-image: url('https://www.gob.mx/cms/uploads/article/main_image/96544/michoacan.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Estilo de la caja de login */
+  .login-box {
+    max-width: 400px;
+    width: 100%;
+    padding: 2em;
+    background-color: rgba(255, 255, 255, 0.85); /* Fondo ligeramente transparente */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  .login-box h2 {
+    font-size: 1.8em;
+    color: #333;
+    font-weight: bold;
+  }
+
+  .form-label {
+    font-weight: bold;
+  }
+
+  .form-control-sm {
+    height: 38px;
+  }
+
+  .input-group-text {
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    font-size: 1.2em;
+  }
+
+  .btn-primary:hover {
+    background-color: #0056b3;
+  }
+
+  .text-muted {
+    color: #6c757d;
+  }
+
+  /* Responsividad */
+  @media (max-width: 576px) {
+    .login-box {
+      padding: 1.5em;
+    }
+
+    .login-box h2 {
+      font-size: 1.5em;
+    }
+
+    .btn-primary {
+      font-size: 1em;
+    }
+  }
+</style>

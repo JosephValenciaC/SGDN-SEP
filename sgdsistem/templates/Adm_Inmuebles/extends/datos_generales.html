@@ -1,0 +1,39 @@
+<div class="tab-content active" id="tab-Generales">
+    <div class="separador">
+        <div class="form-container">
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.CV_CCT.id_for_label }}">CV CCT:</label>
+                {{ inmueble.CV_CCT }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.assigned_to.id_for_label }}">Tarea Asignada:</label>
+                {{ inmueble.assigned_to }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.estado.id_for_label }}">Estado:</label>
+                {{ inmueble.estado }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.deadline.id_for_label }}">Tiempo de entrega:</label>
+                {{ inmueble.deadline }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.prioridad.id_for_label }}">Prioridad:</label>
+                {{ inmueble.prioridad }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.creado.id_for_label }}">Creado:</label>
+                {{ inmueble.creado }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.datecompleted.id_for_label }}">Dia en que se completo:</label>
+                {{ inmueble.datecompleted }}
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="{{ inmueble.user.id_for_label }}">Usuario que creo la Tarea:</label>
+                {{ inmueble.user }}
+            </div>
+        </div>
+
+    </div>
+</div>

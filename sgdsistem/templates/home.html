@@ -1,0 +1,104 @@
+{% extends 'shared/nav.html' %}
+{% block titulo %} Inicio {% endblock %}
+{% block content %}
+
+
+<style>
+  .container-home {
+    padding: 4em;
+    margin-top: 0em;
+    margin-bottom: 6em;
+  }
+
+  .card {
+    margin: 20px;
+    padding: 8px;
+    border-radius: 16px;
+    border: 2px solid #b38e5d;
+  }
+</style>
+
+<div class="animated fadeIn mt-4">
+  <div class="container-home">
+    <h2 class="text-center mb-4">Bienvenido al sistema de Administración de Nóminas y Plazas SEP MORELIA</h2>
+
+    <!-- Contenedor de cuadros -->
+    <div class="row">
+      <!-- Primer cuadro -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-people-fill display-3 text-primary"></i>
+            <h4 class="card-title mt-3">Gestión de Empleados</h4>
+            <p class="card-text">Administra los datos del personal y sus plazas.</p>
+            <a href="/empleados/" class="btn btn-primary">Ir a Gestión</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Segundo cuadro -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-file-earmark-text-fill display-3 text-success"></i>
+            <h4 class="card-title mt-3">Nóminas</h4>
+            <p class="card-text">Consulta y genera reportes de nóminas.</p>
+            <a href="/nominas/" class="btn btn-success">Ir a Nóminas</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tercer cuadro -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-gear-fill display-3 text-danger"></i>
+            <h4 class="card-title mt-3">Configuración</h4>
+            <p class="card-text">Ajusta las opciones del sistema y usuarios.</p>
+            <a href="/configuracion/" class="btn btn-danger">Ir a Configuración</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Segunda fila -->
+    <div class="row">
+      <!-- Cuarto cuadro -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-bar-chart-fill display-3 text-warning"></i>
+            <h4 class="card-title mt-3">Reportes</h4>
+            <p class="card-text">Genera y exporta reportes detallados.</p>
+            <a href="/reportes/" class="btn btn-warning">Ir a Reportes</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quinto cuadro -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-calendar-fill display-3 text-info"></i>
+            <h4 class="card-title mt-3">Calendario</h4>
+            <p class="card-text">Consulta eventos y fechas importantes.</p>
+            <a href="/calendario/" class="btn btn-info">Ir a Calendario</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sexto cuadro -->
+      <div class="col-md-4 mb-4">
+        <div class="card shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-person-fill-lock display-3 text-secondary"></i>
+            <h4 class="card-title mt-3">Usuarios</h4>
+            <p class="card-text">Gestiona los roles y permisos del sistema.</p>
+            <a href="/usuarios/" class="btn btn-secondary">Ir a Usuarios</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

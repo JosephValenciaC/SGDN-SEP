@@ -1,0 +1,89 @@
+{% extends 'shared/nav.html' %}
+{% block titulo %} Inmuebles {% endblock %}
+{% block content %}
+
+<div class="container-inmuebles animated fadeIn">
+  <h2 class="text-center mb-4">Listado de Inmuebles</h2>
+  <a type="button" href="{% url 'importar' %}" class="btn btn-link">Importar Inmuebles</a>
+
+  <!-- Buscador avanzado -->
+  <form method="GET" class="mb-4">
+    <div class="row g-3">
+      <div class="col-md-3">
+        <input type="text" name="q" class="form-control" placeholder="Buscar por CV CCT" value="{{ search_query }}">
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="cv_inmueble" class="form-control" placeholder="Buscar por CV Inmueble" value="{{ request.GET.cv_inmueble }}">
+      </div>
+      <div class="col-md-3">
+        <select name="estado" class="form-select">
+          <option value="">Estado</option>
+          <option value="Activo" {% if request.GET.estado == 'Activo' %}selected{% endif %}>Activo</option>
+          <option value="Baja" {% if request.GET.estado == 'Baja' %}selected{% endif %}>Baja</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <select name="ordenar" class="form-select">
+          <option value="">Ordenar por</option>
+          <option value="az" {% if orden == 'az' %}selected{% endif %}>A-Z</option>
+          <option value="za" {% if orden == 'za' %}selected{% endif %}>Z-A</option>
+          <option value="nuevo" {% if orden == 'nuevo' %}selected{% endif %}>Más reciente</option>
+          <option value="viejo" {% if orden == 'viejo' %}selected{% endif %}>Más antiguo</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+      </div>
+    </div>
+  </form>
+
+  {% if inmuebles %}
+    <table class="table table-responsive">
+      <thead>
+        <tr>
+          <th>Estado</th>
+          <th>CV CCT</th>
+          <th>Inmueble CV Inmueble</th>
+          <th>Inmueble C Nom Mun</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inmueble in inmuebles %}
+        <tr>
+          <td>
+            {% if inmueble.estado == 'Activo' %}
+              <span class="badge bg-success">Activo</span>
+            {% else %}
+              <span class="badge bg-danger">Baja</span>
+            {% endif %}
+          </td>
+          <td>{{ inmueble.CV_CCT }}</td>
+          <td>{{ inmueble.INMUEBLE_CV_INMUEBLE }}</td>
+          <td>{{ inmueble.INMUEBLE_C_NOM_MUN }}</td>
+          <td>
+            <a href="{% url 'Detalle_inmueble' inmueble.id %}" class="btn btn-outline">Ver detalles</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p class="text-center">No hay Inmuebles registrados disponibles en este momento.</p>
+  {% endif %}
+</div>
+
+<style>
+  .container-inmuebles {
+    padding-top: 3em;
+    width: 100%;
+    max-width: 1000px;
+    margin: 10em auto;
+  }
+  .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+</style>
+
+{% endblock %}

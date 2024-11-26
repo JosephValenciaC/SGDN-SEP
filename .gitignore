@@ -1,0 +1,19 @@
+# Sistema
+*.pyc
+__pycache__/
+db.sqlite3
+
+# Entorno virtual
+venv/
+env/
+
+# Archivos de configuración
+*.env
+
+# Archivos estáticos y media
+staticfiles/
+media/
+
+# IDEs
+.vscode/
+.idea/
