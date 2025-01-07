@@ -1,0 +1,40 @@
+{% extends 'shared/nav.html' %}
+
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4">Editar Usuario</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_username" class="form-label">Nombre de Usuario</label>
+            <input type="text" class="form-control" name="username" value="{{form.username.value}}" maxlength="150"
+                required="" aria-describedby="id_username_helptext" id="id_username">
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Correo Electrónico</label>
+            <input type="email" class="form-control" name="email" value=" {{ form.email.value }}" maxlength="254"
+                id="id_email">
+        </div>
+        <div class="mb-3">
+            <label for="id_first_name" class="form-label">Primer Nombre</label>
+            <input type="text" class="form-control" name="first_name" value="{{ form.first_name.value }}"
+                maxlength="150" id="id_first_name">
+        </div>
+        <div class="mb-3">
+            <label for="id_last_name" class="form-label">Apellido</label>
+            <input type="text" class="form-control" name="last_name" value="{{ form.last_name.value }}" maxlength="150"
+                id="id_last_name">
+        </div>
+        <div class="mb-3">
+            <label for="id_last_name" class="form-label">Puesto</label>
+            {{ form.puesto }}
+        </div>
+        <div class="mb-3">
+            <label for="id_groups">Grupos</label>
+            {{ form.groups }}
+        </div>
+        <button type="submit" class="btn btn-success">Actualizar Usuario</button>
+    </form>
+</div>
+{% endblock %}

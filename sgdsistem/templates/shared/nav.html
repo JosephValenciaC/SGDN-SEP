@@ -3,36 +3,312 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
-    <link href="https://framework-gb.cdn.gob.mx/gm/v4/image/favicon.ico" rel="shortcut icon">
+    <meta name="description" content="Author: Joseph. Valencia Author,
+    Administración de Nominas y Plazas SEP MORELIA">
+    <link rel="shortcut icon" href="https://michoacan.gob.mx/cdn/img/favicon/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="https://michoacan.gob.mx/cdn/img/favicon/apple-touch-icon-180x180.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <title>{% block titulo %} {% endblock %}</title>
   {% load static%}
 </head>
 <body>
-    <nav class="navbar navbar-inverse sub-navbar navbar-fixed-top">
-        <div class="container">
-          <!-- Logo y botón de colapso para móviles -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#subenlaces">
-              <span class="sr-only">Interruptor de Navegación</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <p>Bienvenido: {{ user.name }}</p>
-          </div>
-          <!-- Menú desplegable que se colapsa en pantallas grandes -->
-          <div class="collapse navbar-collapse" id="subenlaces">
-            <ul class="nav navbar-nav navbar-right">
-              <li><a href="{% url 'principal'%}">Inicio</a></li>
-              <li><a href="{% url 'Inmuebles_home'%}">Consulta de Inmuebles</a></li>
-              <li><a href="/consulta-inmuebles/">Consulta de Nominas</a></li>
-              <li><a href="/personas/">Personas</a></li>
-              <li><a href="/" class="text-danger">Salir</a></li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+  <style>
+
+    /* Contenedor principal del menú lateral */
+.sidebar {
+    width: 60px;
+    height: 100%;
+    background-color: #343a40; /* Fondo oscuro */
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease;
+    z-index: 2;
+}
+
+/* Estilo del encabezado del menú */
+.sidebar-header {
+    padding: 15px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #23272b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Botón de hamburguesa */
+.btn-toggle {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Estilo para los enlaces del menú */
+.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    color: white;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 10px 5px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar-menu a:hover {
+    background-color: #495057; 
+}
+.container{
+  margin-left: 5em !important;
+}
+.menu-text {
+    margin-left: 5px;
+    transition: opacity 0.3s ease;
+    visibility: hidden;
+}
+
+
+/* Ocultar texto en el estado comprimido */
+.sidebar.compact .menu-text {
+    visibility:visible;
+}
+
+.sidebar.compact {
+    width: 250px;
+    height: 100%;
+    background-color: #343a40; /* Fondo oscuro */
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease;
+}
+
+/* Iconos del menú */
+.sidebar-menu a i {
+    font-size: 18px;
+}
+
+/* Estilo para el cierre de sesión */
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    background-color: #dc3545; /* Fondo rojo para el logout */
+    border-radius: 5px;
+}
+
+.nav-link:hover {
+    background-color: #c82333; /* Color rojo oscuro al pasar el mouse */
+}
+
+
+    /* Asegúrate de que las tablas se desplacen correctamente */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Mejora la experiencia de desplazamiento en dispositivos móviles */
+    width: 100%;
+}
+
+/* Hacer que las celdas de las tablas sean más flexibles */
+.table th, .table td {
+    word-wrap: break-word; /* Para que el texto largo se ajuste en lugar de desbordar */
+    text-overflow: ellipsis; /* Si el texto es demasiado largo, muestra "..." */
+    overflow: hidden; /* Evita que el contenido se desborde */
+}
+
+/* Puedes usar esta clase para hacer más adaptables los botones si es necesario */
+.btn-sm {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+    /* Paleta de colores */
+    :root {
+      --purple-dark: #4b0082; /* Morado oscuro */
+      --purple-main: #ffffff; /* Morado principal */
+      --purple-light: #f1eff1; /* Morado claro */
+      --purple-accent: #8a2be2; /* Morado acentuado */
+      --white: #0a0707;
+    }
+  
+    /* Estilos para el menú de navegación */
+    .navbar {
+      background-color: var(--purple-main);
+      padding: 1rem;
+    }
+  
+    .navbar .navbar-brand {
+      color: var(--white);
+      font-weight: bold;
+    }
+  
+    .navbar .nav-link {
+      color: var(--white);
+      transition: color 0.3s ease;
+    }
+  
+    .navbar .nav-link:hover {
+      color: var(--purple-accent);
+    }
+  
+    .navbar .nav-link.text-danger {
+      color: #ff4c4c; /* Rojo para "Salir" */
+    }
+  
+    .navbar .nav-link.text-danger:hover {
+      color: #ff7373;
+    }
+  
+    .navbar-toggler {
+      border-color: var(--white);
+    }
+  
+    .navbar-toggler-icon {
+      background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23ffffff' viewBox='0 0 30 30'%3E%3Cpath stroke='rgba%280, 0, 0, 0.5%29' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+    }
+  
+    /* Botones personalizados */
+    .btn-custom {
+      background-color: var(--purple-main);
+      color: var(--white);
+      border: 2px solid var(--purple-accent);
+      border-radius: 30px;
+      padding: 0.5rem 1.5rem;
+      transition: all 0.3s ease;
+    }
+  
+    .btn-custom:hover {
+      background-color: var(--purple-accent);
+      color: var(--white);
+      border-color: var(--purple-light);
+    }
+  
+    /* Tarjetas personalizadas */
+    .card {
+      border: none;
+      border-radius: 1rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background-color: var(--purple-light);
+      color: var(--purple-dark);
+    }
+
+    .user{
+      color: #141414;
+    }
+
+    .user i {
+    margin-left: 10px; /* Espacio entre el texto y el icono */
+    font-size: 1.2rem; /* Tamaño del icono */
+    color: #161616; /* Color azul para el icono */
+
+  }
+  
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+  
+    .card-title {
+      color: var(--purple-dark);
+    }
+  
+    .btn-card {
+      background-color: var(--purple-main);
+      color: var(--white);
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+  
+    .btn-card:hover {
+      background-color: var(--purple-accent);
+    }
+    .navbar>.container, .navbar>.container-fluid, .navbar>.container-lg, .navbar>.container-md, .navbar>.container-sm, .navbar>.container-xl, .navbar>.container-xxl {
+    display: flex    ;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: flex-end !important;
+    }
+    .container{
+      max-width: 90vw !important;
+    }
+  </style>
+  
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <p class="user">
+        Bienvenido: <i class="bi bi-person"></i> {{ user.first_name }} {{ user.last_name }} ({{ user.puesto }}) 
+      </p>
+      </div>
+    </div>
+  </nav>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <button id="sidebar-toggle"  aria-label="Menu" class="btn-toggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+    <div class="sidebar-menu">
+      <a href="{% url 'principal' %}" aria-label="Pag. Inicio" class="btn">
+        <i class="fas fa-home"></i>
+        <span class="menu-text">Inicio</span>
+    </a>
+        <a href="{% url 'personas_home' %}" aria-label="Pag. Personas"  class="btn">
+            <i class="fas fa-users"></i>
+            <span class="menu-text">Personas</span>
+        </a>
+        <a href="/nominas/" class="btn" aria-label="Pag. Nominas" >
+            <i class="fas fa-file-invoice-dollar"></i>
+            <span class="menu-text">Nóminas</span>
+        </a>
+        <a href="/analitico/" class="btn" aria-label="Pag. Analitico" >
+            <i class="fas fa-chart-line"></i>
+            <span class="menu-text">Analitico</span>
+        </a>
+        <a href="/plazas/" class="btn" aria-label="Pag. Plazas" >
+            <i class="fas fa-briefcase"></i>
+            <span class="menu-text">Plazas</span>
+        </a>
+        <a href="/mdp/" class="btn" aria-label="Pag. MDP" >
+            <i class="fas fa-cogs"></i>
+            <span class="menu-text">MDP</span>
+        </a>
+        <a href="/lista_negra/" class="btn" aria-label="Pag. Lista Negra" >
+            <i class="fas fa-ban"></i>
+            <span class="menu-text">Lista negra</span>
+        </a>
+        <a href="{% url 'usuarios' %}" class="btn" aria-label="Pag. Usuarios" >
+            <i class="fas fa-users-cog"></i>
+            <span class="menu-text">Usuarios</span>
+        </a>
+        <a class="nav-link" href="/" aria-label="Cerrar Sesión">
+            <i class="fas fa-sign-out-alt"></i>
+            <span class="menu-text">Cerrar Sesión</span>
+        </a>
+    </div>
+</div>
+
       
       <style>
         /* Estilo general para los select inputs */
@@ -40,9 +316,9 @@ select {
   appearance: none;
     background-color: #f8f9fa;
     border: 1px solid #ced4da;
-    border-radius: 0.25rem;
+    border-radius: 17px;
     padding: .7rem 1rem;
-    font-size: 1.8rem;
+    font-size: 1rem;
     color: #495057;
     width: 100%;
     transition: border-color 0.3s, box-shadow 0.3s;
@@ -71,10 +347,95 @@ select::-ms-expand {
 
 
     {% block content %}
+    {% endblock %}
 
+    <!-- Este bloque debe estar al final para cargar los scripts de forma optimizada -->
+    {% block scripts %}
 
     {% endblock %}
+
+    {% if messages %}
+  <div class="alert alert-success">
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+  </div>
+{% endif %}
+
+<style>
+  /* Estilos básicos */
+  .container-inmuebles {
+    padding-top: 3em;
+    width: 100%;
+    max-width: 1000px;
+    margin: 10em auto;
+  }
+  .table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .body{
+    background-color: #f0f0f0;
+  }
+
+  /* Estilos para modo oscuro */
+  body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  .dark-mode .container-inmuebles {
+    background-color: transparent;
+  }
+
+  
+  .table.dark-mode th, .table.dark-mode td {
+    border-color: #444444;
+    background-color: #363434;
+    color: #ffff;
+  }
+
+  .dark-mode .form-select {
+    background-color: #333;
+    color: #fff;
+    border-color: #555;
+  }
+
+  .dark-mode .btn-link:hover,
+  .dark-mode .btn-outline:hover {
+    color: #bbb;
+  }
+
+
+  .dark-mode .badge.bg-success {
+    background-color: #2e7d32;
+  }
+
+  .dark-mode .badge.bg-danger {
+    background-color: #c62828;
+  }
+</style>
     
 </body>
-<script src="https://framework-gb.cdn.gob.mx/gobmx.js"></script>
+<script>
+  // Verificar si la preferencia está guardada en el localStorage
+  window.addEventListener('load', function() {
+      var sidebar = document.getElementById('sidebar');
+      if (localStorage.getItem('sidebarState') === 'compact') {
+          sidebar.classList.add('compact');
+      }
+  });
+
+  // Cambiar estado del menú y guardar la preferencia
+  document.getElementById('sidebar-toggle').addEventListener('click', function() {
+      var sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('compact');
+  });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </html>

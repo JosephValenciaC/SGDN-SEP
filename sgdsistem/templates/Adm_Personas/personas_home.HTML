@@ -1,0 +1,99 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %} Adm Personas {% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+  <h2 class="text-center mb-4">Listado de Personas</h2>
+ 
+
+  <!-- Filtros -->
+  <form method="get" style="padding: 20px; background-color: #343a40; border-radius: 10px;" class="mb-4">
+    <a type="button" href="{% url 'importar_personas' %}" class="btn btn-link">Importar Personas</a>
+    <div class="row g-3">
+      <div class="col-md-3">
+        <input type="text" name="nombre" class="form-control" value="{{ nombre }}" placeholder="Buscar por nombre..." />
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="rfc" class="form-control" value="{{ rfc }}" placeholder="Buscar por RFC..." />
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="curp" class="form-control" value="{{ curp }}" placeholder="Buscar por CURP..." />
+      </div>
+      <div class="col-md-3 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+        <a href="{% url 'personas_home' %}" class="btn btn-secondary w-100">Limpiar</a>
+    </div>
+    </div>
+  </form>
+  
+
+  <!-- Lista de Personas -->
+  {% if personas %}
+  <div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+        <tr>
+          <th>Nombre</th>
+          <th>RFC</th>
+          <th>CURP</th>
+          <th>NSS</th>
+          <th>Clabe</th>
+          <th style="width: 90px;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for persona in personas %}
+        <tr>
+          <td>{{ persona.nombre }}</td>
+          <td>{{ persona.rfc }}</td>
+          <td>{{ persona.curp }}</td>
+          <td>{{ persona.nss }}</td>
+          <td>{{ persona.clabe }}</td>
+          <td>
+            <a href="{% url 'ver_persona' persona.id %}" class="btn btn-outline-primary">Ver detalles</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6">No se encontraron personas.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+  <div class="d-flex justify-content-center mt-4">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            <!-- Botón para ir a la primera página -->
+            {% if personas.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Primera">&laquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ personas.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Anterior">&lsaquo;</a>
+            </li>
+            {% endif %}
+
+            <!-- Mostrar un rango limitado de páginas -->
+            {% for num in personas.paginator.page_range %}
+            {% if num >= personas.number|add:'-2' and num <= personas.number|add:'2' %}
+            <li class="page-item {% if personas.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ num }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+
+            <!-- Botón para ir a la siguiente página -->
+            {% if personas.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ personas.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Siguiente">&rsaquo;</a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ personas.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Última">&raquo;</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endblock %}

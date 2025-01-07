@@ -4,13 +4,13 @@
 
 {% block content %}
   <div class="container" style="margin-top: 5em; margin-bottom: 5em;">
-    <div class="card">
+    <div class="card shadow-lg rounded">
       <div class="card-header">
-        <h3 class="text">Detalles del Inmueble: {{ task.CV_CCT }}</h3>
+        <h3 class="text-primary">Detalles del Inmueble: {{ task.CV_CCT }}</h3>
         <hr class="red">
       </div>
       {{ error }}
-      
+
       <!-- Formulario para los detalles del inmueble -->
       <form method="post" action="{% url 'Detalle_inmueble' task.id %}" enctype="multipart/form-data" class="task-form" id="form_detail">
         {% csrf_token %}
@@ -49,7 +49,7 @@
 
           <!-- Botón para guardar cambios -->
           <button type="button" class="btn btn-primary actualizar" onclick="mostrarModal()">Guardar Cambios</button>
-          <a href="{% url 'Inmuebles_home' %}" class="btn btn-default">Cancelar</a>
+          <a href="{% url 'Inmuebles_home' %}" class="btn btn-outline-secondary">Cancelar</a>
         </div>
       </form>
     </div>
@@ -63,7 +63,7 @@
       <h3>¿Estás seguro de que quieres guardar los cambios?</h3>
       <div class="modal-actions">
         <button class="btn btn-primary" onclick="guardarCambios()">Aceptar</button>
-        <button class="btn btn-default" onclick="cerrarModal()">Cancelar</button>
+        <button class="btn btn-outline-secondary" onclick="cerrarModal()">Cancelar</button>
       </div>
     </div>
   </div>
@@ -122,7 +122,19 @@
   </script>
 
   <style>
-    /* Estilo general de las pestañas */
+    input:focus {
+      border-color: #80bdff; /* Borde azul */
+      outline: none; /* Elimina el contorno predeterminado */
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra azul clara */
+    }
+
+    .card {
+      background-color: #ffffff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+    }
+
     .tabs {
       display: flex;
       flex-wrap: wrap;
@@ -131,7 +143,7 @@
     }
 
     .tab {
-      padding: 10px 20px;
+      padding: 12px 20px;
       cursor: pointer;
       font-weight: bold;
       text-align: center;
@@ -139,6 +151,7 @@
       border-radius: 5px 5px 0 0;
       transition: background-color 0.3s, color 0.3s;
       flex: 1;
+      font-size: 16px;
     }
 
     .tab:hover {
@@ -154,7 +167,6 @@
       outline: none;
     }
 
-    /* Estilo de contenido de las pestañas */
     .tab-content {
       padding: 20px;
       border: 1px solid #ddd;
@@ -170,7 +182,6 @@
       display: block;
     }
 
-    /* Modal */
     .modal {
       display: none;
       position: fixed;
@@ -205,24 +216,102 @@
       margin-top: 20px;
     }
 
-    /* Responsividad */
-    @media (max-width: 768px) {
-      .modal-content {
-        width: 80%;
-      }
-
-      .tabs {
-        flex-direction: column;
-      }
-
-      .tab {
-        flex: none;
-        width: 100%;
-      }
-
-      .tab-content {
-        padding: 10px;
-      }
+    .btn {
+      padding: 10px 20px;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
     }
+
+    .btn-primary {
+      background-color: #611232;
+      color: white;
+      border: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #9b2e3f;
+    }
+
+    .btn-outline-secondary {
+      background-color: transparent;
+      color: #611232;
+      border: 1px solid #611232;
+    }
+
+    .btn-outline-secondary:hover {
+      background-color: #611232;
+      color: white;
+    }
+
+    .red {
+      border-color: #611232;
+    }
+
+    /* Estilos para el modo oscuro */
+.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-mode .card {
+  background-color: transparent;
+  color: #e0e0e0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .tabs {
+  border-bottom: 2px solid #555;
+}
+
+.dark-mode .tab {
+  background-color: #444;
+  color: #e0e0e0;
+  border-color: #555;
+}
+
+.dark-mode .tab:hover {
+  background-color: #555;
+}
+
+.dark-mode .tab.active {
+  background-color: #333;
+  color: white;
+}
+
+.dark-mode .tab-content {
+  background-color: transparent;
+  color: #e0e0e0;
+  border-color: transparent;
+}
+
+.dark-mode .modal-content {
+  background-color: #333;
+  color: #e0e0e0;
+}
+
+.dark-mode .modal {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dark-mode .btn-primary {
+  background-color: #3b3b3b;
+  color: #e0e0e0;
+}
+
+.dark-mode .btn-primary:hover {
+  background-color: #555;
+}
+
+.dark-mode .btn-outline-secondary {
+  color: #e0e0e0;
+  border-color: #e0e0e0;
+}
+
+.dark-mode .btn-outline-secondary:hover {
+  background-color: #333;
+  color: #e0e0e0;
+}
+
   </style>
 {% endblock %}

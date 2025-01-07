@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte de Nóminas</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            color: #333;
+            background-color: #f4f4f9;
+        }
+        h2 {
+            text-align: center;
+            color: #004d99;
+            margin-top: 10px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 120px;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .info {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        .info strong {
+            color: #004d99;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #004d99;
+            color: white;
+            font-weight: bold;
+        }
+        td {
+            background-color: #f9f9f9;
+        }
+        .total {
+            text-align: right;
+            font-weight: bold;
+            font-size: 18px;
+            color: #004d99;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-top: 20px;
+        }
+     
+     </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <!-- Asegúrate de que la imagen se carga correctamente -->
+            <div class="logo"></div>
+            <h2>Reporte de Nóminas</h2>
+        </div>
+
+        <!-- Información del usuario (solo se muestra una vez) -->
+        <div class="info">
+            <p><strong>Nombre:</strong> {{ nominas.0.nombre }} <br>
+            <strong>RFC:</strong> {{ nominas.0.rfc }} <br>
+            <strong>CURP:</strong> {{ nominas.0.curp }} <br><br>
+            <strong>Datos Plazas:</strong></p>
+        </div>
+
+        <!-- Tabla de datos -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Centro de Trabajo</th>
+                    <th>Clave Plaza</th>
+                    <th>Quincena Pago</th>
+                    <th>Líquido</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for nomina in nominas %}
+                <tr>
+                    <td>{{ nomina.ct }}</td>
+                    <td>{{ nomina.cve_plaza }}</td>
+                    <td>{{ nomina.qna_pago }}</td>
+                    <td>{{ nomina.liquido }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Total Líquido -->
+        <div class="total">
+            <p>Total Líquido: ${{ total_liquido|floatformat:2 }}</p>
+        </div>
+
+        <div class="footer">
+            <p>Este reporte fue generado por el SGDN-SEP.</p>
+        </div>
+    </div>
+
+</body>
+</html>

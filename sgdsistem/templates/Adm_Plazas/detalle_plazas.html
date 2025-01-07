@@ -1,0 +1,117 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %}Detalle de Plaza{% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+    <h2 class="text-center mb-4">Detalle de Plaza</h2>
+
+    <div class="card shadow-sm p-4 bg-light">
+        <a href="{% url 'plazas_home' %}" class="btn btn-link">Regresar</a>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th scope="row">RFC</th>
+                    <td>{{ plaza.rfc }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Centro de Trabajo (ct)</th>
+                    <td>{{ plaza.ct }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Partida</th>
+                    <td>{{ plaza.partida }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Unidad</th>
+                    <td>{{ plaza.unidad }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Subunidad</th>
+                    <td>{{ plaza.subunidad }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Categoría</th>
+                    <td>{{ plaza.categoria }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Horas</th>
+                    <td>{{ plaza.horas }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Plaza</th>
+                    <td>{{ plaza.plaza }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Nivel CM</th>
+                    <td>{{ plaza.nivel_cm }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Pzareq</th>
+                    <td>{{ plaza.pzareq }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Nivel Puesto</th>
+                    <td>{{ plaza.nivel_pto }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Documento Plaza</th>
+                    <td>{{ plaza.docto_pla }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Desde Plaza</th>
+                    <td>{{ plaza.desde_pla }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Hasta Plaza</th>
+                    <td>{{ plaza.hasta_pla }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Documento Proceso</th>
+                    <td>{{ plaza.docto_pro }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Desde Proceso</th>
+                    <td>{{ plaza.desde_pro }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Hasta Proceso</th>
+                    <td>{{ plaza.hasta_pro }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Estatus</th>
+                    <td>{{ plaza.status_s }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Motivo</th>
+                    <td>{{ plaza.motivo_s }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Documento Estatus</th>
+                    <td>{{ plaza.docto_s }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Desde Estatus</th>
+                    <td>{{ plaza.desde_s }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Hasta Estatus</th>
+                    <td>{{ plaza.hasta_s }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Tipo Movimiento</th>
+                    <td>{{ plaza.tipmov_s }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Situación</th>
+                    <td>{{ plaza.situacion }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Trailers</th>
+                    <td>{{ plaza.trailers }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

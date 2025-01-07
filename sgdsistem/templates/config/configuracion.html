@@ -1,0 +1,115 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %} Configuración del Sistema {% endblock %}
+
+{% block content %}
+  <!-- Módulo de Configuración para Modo Oscuro -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-md-4">
+        <!-- Card con opción de modo oscuro -->
+        <div class="card text-center shadow-sm">
+          <div class="card-body">
+            <i class="bi bi-gear-fill card-icon"></i>
+            <h4 class="card-title">Configuración</h4>
+            <p class="card-text">Ajusta las opciones del sistema y usuarios.</p>
+
+            <!-- Interruptor para cambiar el tema -->
+            <div class="mb-3">
+              <label class="switch">
+                <input type="checkbox" id="darkModeSwitch">
+                <span class="slider round"></span>
+              </label>
+              <span>Modo Oscuro</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block scripts %}
+  <style>
+    /* Estilos generales para modo oscuro */
+    body.dark-mode {
+      background-color: #121212 !important;
+      color: #e0e0e0 !important;
+    }
+
+    .card {
+      background-color: #333333 !important;
+      color: #e0e0e0 !important;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .card-body {
+      background-color: #444444 !important;
+      color: #e0e0e0 !important;
+    }
+
+    .card-title, .card-text {
+      color: #e0e0e0 !important;
+    }
+
+    .card a.btn-custom {
+      background-color: #611232 !important;
+      color: white !important;
+    }
+
+    .card a.btn-custom:hover {
+      background-color: #722643 !important;
+    }
+
+    /* Estilos para el switch */
+    .switch {
+      position: relative !important;
+      display: inline-block !important;
+      width: 34px !important;
+      height: 20px !important;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: 0.4s;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(14px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+{% endblock %}

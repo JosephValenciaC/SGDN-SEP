@@ -1,0 +1,39 @@
+{% extends 'shared/nav.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Gestión de Usuarios</h2>
+  <a href="{% url 'create_user' %}" class="btn btn-primary mb-4">Crear Nuevo Usuario</a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Puesto</th>  
+        <th>Grupos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+      <tr>
+        <td>{{ user.id }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.puesto }}</td> 
+        <td>
+          {% for group in user.groups.all %}
+            {{ group.name }}{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </td>
+        <td>
+          <!-- Enlaces a las acciones de editar y eliminar -->
+          <a href="{% url 'edit_user' user.id %}" class="btn btn-sm btn-warning">Editar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,119 @@
+{% extends 'shared/nav.html' %}
+{% block titulo %} Importar Plazas {% endblock %}
+{% block content %}
+
+<div class="container-import">
+    <h1 class="text-center mb-4">Importar Plazas</h1>
+    
+    <form method="post" enctype="multipart/form-data" class="form-import">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="archivo" class="form-label">Seleccionar archivo Excel</label>
+            <input type="file" name="archivo" id="archivo" class="form-control" required>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Importar</button>
+    </form>
+
+    {% if messages %}
+    <div class="messages-container">
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+  /* Estilo principal del contenedor */
+  .container-import {
+    max-width: 800px;
+    margin: 6em auto;
+    padding: 2em;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  h1 {
+    font-size: 1.8em;
+    color: #333;
+  }
+
+  /* Estilos para el formulario */
+  .form-import {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    margin-bottom: 0.5em;
+    font-weight: bold;
+  }
+
+  .form-control {
+    padding: 0.8em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+  }
+
+
+
+  /* Estilo de los mensajes */
+  .messages-container {
+    margin-top: 2em;
+  }
+
+  .messages {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .messages li {
+    padding: 0.8em;
+    margin: 0.5em 0;
+    border-radius: 5px;
+  }
+
+  .messages .success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+
+  .messages .error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .messages .warning {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  /* Responsividad */
+  @media (max-width: 768px) {
+    .container-import {
+      padding: 1.5em;
+      margin: 1.5em;
+    }
+
+    h1 {
+      font-size: 1.5em;
+    }
+
+    .btn {
+      width: 100%;
+    }
+  }
+</style>
+
+{% endblock %}

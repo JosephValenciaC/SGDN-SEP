@@ -1,0 +1,60 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %}Detalle del MDP{% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+    <h2 class="text-center mb-4">Detalle del MDP</h2>
+    
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            Detalles del MDP
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Número:</strong> {{ mdps.NUM }}</p>
+                    <p><strong>Entidad Federativa:</strong> {{ mdps.ENTIDAD_FEDERATIVA }}</p>
+                    <p><strong>CURP:</strong> {{ mdps.curp }}</p>
+                    <p><strong>RFC:</strong> {{ mdps.rfc }}</p>
+                    <p><strong>Nombre:</strong> {{ mdps.nombre }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Código Postal:</strong> {{ mdps.CODIGO_POSTAL }}</p>
+                    <p><strong>Clave de la Plaza:</strong> {{ mdps.CLAVE_DE_LA_PLAZA }}</p>
+                    <p><strong>Estatus Actual de la Plaza:</strong> {{ mdps.ESTATUS_ACTUAL_DE_LA_PLAZA }}</p>
+                    <p><strong>Estatus del Nombramiento:</strong> {{ mdps.ESTATUS_DEL_NOMBRAMIENTO }}</p>
+                    <p><strong>Movimiento:</strong> {{ mdps.MOVIMIENTO }}</p>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Código del Movimiento:</strong> {{ mdps.CODIGO_DEL_MOVIMIENTO }}</p>
+                    <p><strong>Alta Vigente:</strong> {{ mdps.ALTA_VIGENTE }}</p>
+                    <p><strong>Fecha Inicial:</strong> {{ mdps.FECHA_INICIAL }}</p>
+                    <p><strong>Fecha Final:</strong> {{ mdps.FECHA_FINAL }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Fecha de Baja:</strong> {{ mdps.FECHA_DE_BAJA }}</p>
+                    <p><strong>Régimen:</strong> {{ mdps.REGIMEN }}</p>
+                    <p><strong>Número de Ticket MAI:</strong> {{ mdps.NUM_DE_TICKET_MAI }}</p>
+                    <p><strong>Folio Registro Excepción:</strong> {{ mdps.FOLIO_REGISTRO_EXCEPCION }}</p>
+                    <p><strong>Registro Extemporáneo:</strong> {{ mdps.REGISTRO_EXTEMPORANEO }}</p>
+                </div>
+            </div>
+            <hr>
+            <p><strong>Descripción:</strong> {{ mdps.DESCRIPCION }}</p>
+            <p><strong>Fecha de Registro:</strong> {{ mdps.FECHA_DE_REGISTRO }}</p>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{% url 'mdp_home' %}" class="btn btn-secondary">Regresar</a>
+        </div>
+    </div>
+</div>
+<style>
+    .card{
+        background-color: rgb(255, 255, 255);
+    }
+</style>
+{% endblock %}

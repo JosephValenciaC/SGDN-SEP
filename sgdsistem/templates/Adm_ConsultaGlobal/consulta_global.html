@@ -1,0 +1,295 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %}Consulta Global{% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+    <h2 class="text-center mb-4">Consulta Global</h2>
+
+    <!-- Formulario de búsqueda -->
+    <form method="GET" style="padding: 20px; background-color: #343a40; border-radius: 10px;" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-2">
+                <input type="text" name="rfc" class="form-control" placeholder="RFC" value="{{ rfc }}"
+                    autocomplete="off">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="curp" class="form-control" placeholder="CURP" value="{{ curp }}"
+                    autocomplete="off">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ nombre }}"
+                    autocomplete="off">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="ct" class="form-control" placeholder="Centro de Trabajo" 
+                    value="{{ ct }}" autocomplete="off"
+                    maxlength="10">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="cve_plaza" class="form-control" placeholder="Clave Plaza"
+                    value="{{ cve_plaza }}" autocomplete="off">
+            </div>
+            <div class="col-md-1">
+                <input type="number" name="desde_s" class="form-control" value="{{ desde_s }}"
+                    placeholder="Desde" min="1000" max="9999">
+            </div>
+            <div class="col-md-1">
+                <input type="number" name="hasta_s" class="form-control" value="{{ hasta_s }}"
+                    placeholder="Hasta" min="1000" max="9999">
+            </div>
+            <div class="col-md-2">
+                <select name="status" class="form-select">
+                    <option value="" {% if not status %}selected{% endif %}>Todos</option>
+                    <option value="vivo" {% if status == 'vivo' %}selected{% endif %}>Vivo</option>
+                    <option value="bajas" {% if status == 'bajas' %}selected{% endif %}>Bajas</option>
+                </select>
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                <a href="{% url 'consulta_global_home' %}" class="btn btn-secondary w-100">Limpiar</a>
+            </div>
+        </div>
+    </form>
+
+    <!-- Resultados -->
+    {% if resultados %}
+    <div class="table-responsive">
+        <table class="text-center table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 150px;" onclick="ordenarTabla('rfc')" class="ordenable">
+                        RFC <i class="fa fa-sort"></i>
+                    </th>
+                    <th onclick="ordenarTabla('curp')" class="ordenable">
+                        CURP <i class="fa fa-sort"></i>
+                    </th>
+                    <th onclick="ordenarTabla('nombre_persona')" class="ordenable">
+                        Nombre <i class="fa fa-sort"></i>
+                    </th>
+                    <th style="width: 120px;">Centro de Trabajo</th>
+                    <th>Clave Plaza</th>
+                    <th style="width: 90px;">
+                        Desde 
+                        -
+                        Hasta
+                    </th>
+                    <th style="width: 100px;">Status Analítico</th>
+                    <th style="width: 100px;">Motivo Analítico</th>
+                    <th style="width: 110px;">Acciones</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for resultado in resultados %}
+                <tr>
+                    <td data-columna="rfc">{{ resultado.rfc }}</td>
+                    <td data-columna="curp">{{ resultado.curp }}</td>
+                    <td data-columna="nombre_persona">{{ resultado.nombre_persona }}</td>
+                    <td>{{ resultado.centro_trabajo }}</td>
+                    <td>{{ resultado.cve_plaza }}</td>
+                    <td data-columna="desde" class="text-center">{{ resultado.desde }} - {{ resultado.hasta }}</td>
+               
+                    <td class="text-center">{{ resultado.status }}</td>
+                    <td class="text-center">{{ resultado.motivo_plaza }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" 
+                        data-rfc="{{ resultado.rfc }}" 
+                        data-curp="{{ resultado.curp }}" 
+                        data-nombre="{{ resultado.nombre_persona }}" 
+                        data-centro-trabajo="{{ resultado.centro_trabajo }}" 
+                        data-cve-plaza="{{ resultado.cve_plaza }}" 
+                        data-desde="{{ resultado.desde }}" 
+                        data-hasta="{{ resultado.hasta }}" 
+                        data-status="{{ resultado.status }}" 
+                        data-motivo="{{ resultado.motivo_plaza }}"
+                        data-motivo-nomina="{{ resultado.motivo_nomina }}"
+                        data-liquido="{{ resultado.liquido }}"
+                        data-motivoln="{{ resultado.motivoln }}"
+                        onclick="mostrarDetalles(this)">
+                    Ver Detalles
+                </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>            
+        </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                {% if resultados.has_previous %}
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        aria-label="Primera">&laquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link"
+                        href="?page={{ resultados.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                        aria-label="Anterior">&lsaquo;</a>
+                </li>
+                {% endif %}
+
+                {% for num in resultados.paginator.page_range %}
+                {% if num >= resultados.number|add:'-2' and num <= resultados.number|add:'2' %} <li
+                    class="page-item {% if resultados.number == num %}active{% endif %}">
+                    <a class="page-link"
+                        href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">
+                        {{ num }}
+                    </a>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if resultados.has_next %}
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="?page={{ resultados.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                            aria-label="Siguiente">&rsaquo;</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="?page={{ resultados.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}"
+                            aria-label="Última">&raquo;</a>
+                    </li>
+                    {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% else %}
+    <p class="text-center">No hay registros disponibles en este momento.</p>
+    {% endif %}
+</div>
+<style>
+    .ordenable {
+        cursor: pointer;
+    }
+    .ordenable i {
+        margin-left: 5px;
+    }
+    .ordenable.asc i {
+        transform: rotate(180deg);
+    }
+</style>
+
+
+<!-- Modal -->
+<div class="modal fade" id="detalleModal" tabindex="-1" role="dialog" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detalleModalLabel">Detalles del Registro</h5>
+          <!-- Botón de cerrar modal -->
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="detalleContenido">
+            <!-- Detalles dinámicos del registro se cargarán aquí -->
+            <p><strong>RFC:</strong> <span id="detalleRfc"></span></p>
+            <p><strong>CURP:</strong> <span id="detalleCurp"></span></p>
+            <p><strong>Nombre:</strong> <span id="detalleNombre"></span></p>
+            <p><strong>Centro de Trabajo:</strong> <span id="detalleCentroTrabajo"></span></p>
+            <p><strong>Clave Plaza:</strong> <span id="detalleCvePlaza"></span></p>
+            <p><strong>Desde:</strong> <span id="detalleDesde"></span></p>
+            <p><strong>Hasta:</strong> <span id="detalleHasta"></span></p>
+            <p><strong>Status Analítico:</strong> <span id="detalleStatus"></span></p>
+            <p><strong>Motivo Analítico:</strong> <span id="detalleMotivo"></span></p>
+            <p><strong>Motivo Nomina:</strong> <span id="detalleMotivoNomina"></span></p>
+            <p><strong>Motivo Lista Negra:</strong> <span id="detalleMotivoLN"></span></p>
+            <p><strong>Liquido:</strong> <span id="liquido"></span></p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <!-- Botón para cerrar el modal -->
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+   
+    function mostrarDetalles(button) {
+        // Obtener los datos del botón
+        var rfc = button.getAttribute("data-rfc");
+        var curp = button.getAttribute("data-curp");
+        var nombre = button.getAttribute("data-nombre");
+        var centroTrabajo = button.getAttribute("data-centro-trabajo");
+        var cvePlaza = button.getAttribute("data-cve-plaza");
+        var desde = button.getAttribute("data-desde");
+        var hasta = button.getAttribute("data-hasta");
+        var status = button.getAttribute("data-status");
+        var motivo = button.getAttribute("data-motivo");
+        var motivoNomina = button.getAttribute("data-motivo-nomina");
+        var motivoLN = button.getAttribute("data-motivoln");
+        var liquido = button.getAttribute("data-liquido");
+        
+
+        // Cargar los datos en el modal
+        document.getElementById("detalleRfc").textContent = rfc;
+        document.getElementById("detalleCurp").textContent = curp;
+        document.getElementById("detalleNombre").textContent = nombre;
+        document.getElementById("detalleCentroTrabajo").textContent = centroTrabajo;
+        document.getElementById("detalleCvePlaza").textContent = cvePlaza;
+        document.getElementById("detalleDesde").textContent = desde;
+        document.getElementById("detalleHasta").textContent = hasta;
+        document.getElementById("detalleStatus").textContent = status;
+        document.getElementById("detalleMotivo").textContent = motivo;
+        document.getElementById("detalleMotivoNomina").textContent = motivoNomina;
+        document.getElementById("detalleMotivoLN").textContent = motivoLN;
+        document.getElementById("liquido").textContent = liquido;
+
+        // Mostrar el modal
+        $('#detalleModal').modal('show');
+    }
+</script>
+<!-- Bootstrap CSS -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- jQuery y Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+
+<script>
+    let ordenActual = {
+        columna: null,
+        direccion: 'asc' // Puede ser 'asc' o 'desc'
+    };
+
+    function ordenarTabla(columna) {
+        const tabla = document.querySelector("table tbody");
+        const filas = Array.from(tabla.querySelectorAll("tr"));
+        const direccion = ordenActual.columna === columna && ordenActual.direccion === 'asc' ? 'desc' : 'asc';
+        
+        // Actualizamos el estado actual
+        ordenActual.columna = columna;
+        ordenActual.direccion = direccion;
+
+        // Ordenar las filas
+        filas.sort((a, b) => {
+            const aTexto = a.querySelector(`td[data-columna="${columna}"]`)?.innerText.trim() || '';
+            const bTexto = b.querySelector(`td[data-columna="${columna}"]`)?.innerText.trim() || '';
+
+            if (columna === 'desde' || columna === 'hasta') {
+                return direccion === 'asc' ? aTexto - bTexto : bTexto - aTexto;
+            }
+
+            return direccion === 'asc' 
+                ? aTexto.localeCompare(bTexto)
+                : bTexto.localeCompare(aTexto);
+        });
+
+        // Agregar las filas ordenadas nuevamente a la tabla
+        filas.forEach(fila => tabla.appendChild(fila));
+
+        // Actualizar los íconos
+        document.querySelectorAll(".ordenable").forEach(th => th.classList.remove("asc", "desc"));
+        document.querySelector(`th[onclick="ordenarTabla('${columna}')"]`).classList.add(direccion);
+    }
+</script>
+{% endblock %}

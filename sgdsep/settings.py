@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -76,12 +77,25 @@ WSGI_APPLICATION = 'sgdsep.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'nominas',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': 'localhost',  # Cambia si tu base de datos no está en el localhost
+        'PORT': '3306',       # Cambia si usas un puerto diferente
     }
 }
+
 
 
 # Password validation
@@ -103,29 +117,55 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+JAZZMIN_SETTINGS = {
+    "site_title": "Administración de Nóminas SEP",  # Título en la pestaña del navegador
+    "site_header": "Administración de Nóminas SEP",  # Título principal en la barra superior
+    "site_brand": "Nóminas SEP",  # Nombre de la aplicación
+    "welcome_sign": "Bienvenido al panel de administración de Nóminas SEP",  # Mensaje de bienvenida
+    "show_sidebar": True,  # Mostrar barra lateral
+    "show_navigation": True,  # Mostrar navegación
+    "order_with_respect_to": ["auth", "contenttypes"],  # Orden de los módulos en el admin
+    # Personalización de temas (si deseas modificar colores, iconos, etc.)
+    "icons": {
+        "auth.user": "fas fa-users",  # Icono para el modelo de usuario
+        "auth.group": "fas fa-users-cog",  # Icono para el grupo de usuarios
+        # Agrega más iconos si lo deseas
+    },
+}
+
+JAZZMIN_SETTINGS.update({
+    "navigation_expanded": True,  # Expande la barra lateral por defecto
+    "navigation": [
+        {"name": "Nómina", "url": "/admin/nómina", "icon": "fas fa-dollar-sign"},
+        {"name": "Empleados", "url": "/admin/empleados", "icon": "fas fa-user-friends"},
+        {"name": "Configuración", "url": "/admin/config", "icon": "fas fa-cogs"},
+    ],
+})
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-la'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'  # Ajusta esto a tu zona horaria
+USE_TZ = True  # Asegúrate de que el uso de zona horaria esté habilitado
 
-USE_I18N = True
 
-USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'sgdsistem/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
+STATIC_URL = '/static/'
 LOGIN_URL = '/signin'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL = 'sgdsistem.CustomUser'

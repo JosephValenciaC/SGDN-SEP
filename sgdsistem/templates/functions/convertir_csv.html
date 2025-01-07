@@ -3,6 +3,7 @@
 {% block content %}
 
 <h2 class="titulo-formulario">Sube tu archivo CSV para convertirlo a Excel</h2>
+
 <form method="post" enctype="multipart/form-data" class="formulario-csv" id="formulario-csv">
     {% csrf_token %}
     <label for="csv_file" class="etiqueta-archivo">Selecciona el archivo CSV:</label>
@@ -15,6 +16,7 @@
     <div class="spinner"></div>
     <p>Generando el archivo, por favor espera...</p>
 </div>
+
 <style>
     /* Spinner estilo CSS */
     .spinner {

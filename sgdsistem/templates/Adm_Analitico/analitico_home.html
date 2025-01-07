@@ -1,0 +1,131 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %}Analítico{% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+    <h2 class="text-center mb-4">Analítico</h2>
+    
+    <form method="GET" style="padding: 20px; background-color: #343a40; border-radius: 10px;" class="mb-4">
+        <a type="button" href="{% url 'importar_analitico' %}" class="btn btn-link">Importar Analitico</a>
+        <div class="row g-3">
+            <div class="col-md-2">
+                <input type="text" name="rfc" class="form-control" placeholder="RFC" 
+                    value="{{ rfc }}" autocomplete="off"
+                    maxlength="13" 
+                    pattern="[A-Za-z0-9]{13}"
+                    title="El RFC debe tener 13 caracteres alfanuméricos.">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="ct" class="form-control" placeholder="Centro de Trabajo" 
+                    value="{{ ct }}" autocomplete="off"
+                    maxlength="10">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="desde" class="form-control" placeholder="Desde" 
+                    value="{{ desde }}" autocomplete="off"
+                    min="1000" max="9999" 
+                    title="Debe ser un número de 4 dígitos.">
+            </div>
+            <div class="col-md-2">
+                <input type="number" name="hasta" class="form-control" placeholder="Hasta" 
+                    value="{{ hasta }}" autocomplete="off"
+                    min="1000" max="9999" 
+                    title="Debe ser un número de 4 dígitos.">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="motivo" class="form-control" placeholder="Motivo" 
+                    value="{{ motivo }}" autocomplete="off">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="curp" class="form-control" placeholder="CURP" 
+                    value="{{ curp }}" autocomplete="off"
+                    maxlength="18">
+            </div>
+            <div class="col-md-2">
+                <input type="text" name="cve_plaza_edo" class="form-control" placeholder="Clave Plaza Edo" 
+                    value="{{ cve_plaza_edo }}" autocomplete="off"
+                    maxlength="26">
+            </div>
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                <a href="{% url 'analitico_home' %}" class="btn btn-secondary w-100">Limpiar</a>
+            </div>
+        </div>
+    </form>
+    
+
+    {% if analiticos %}
+    <div class="table-responsive">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width: 140px;">RFC</th>
+                    <th style="width: 140px;">Centro de Trabajo</th>
+                    <th>Nombre</th>  
+                    <th>Curp</th>              
+                    <th style="width: 140px;">Clave plaza edo</th>
+                    <th style="width: 90px;">Motivo</th>
+                    <th style="width: 90px;">Desde - Hasta</th>
+                    <th style="width: 90px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analitico in analiticos %}
+                <tr>
+                    <td>{{ analitico.rfc }}</td>
+                    <td>{{ analitico.ct }}</td>
+                    <td>{{ analitico.nombre }}</td>
+                    <td>{{ analitico.curp }}</td>
+                    <td>{{ analitico.cve_plaza }}</td>
+                    <td>{{ analitico.motivo_s }}</td>
+                    <td>{{ analitico.desde_s }} - {{ analitico.hasta_s }}</td>
+                    <td>
+                        <a href="{% url 'detalle_analitico' analitico.id %}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="d-flex justify-content-center mt-4">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <!-- Botón para ir a la primera página -->
+                {% if analiticos.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Primera">&laquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ analiticos.previous_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Anterior">&lsaquo;</a>
+                </li>
+                {% endif %}
+    
+                <!-- Mostrar un rango limitado de páginas -->
+                {% for num in analiticos.paginator.page_range %}
+                {% if num >= analiticos.number|add:'-2' and num <= analiticos.number|add:'2' %}
+                <li class="page-item {% if analiticos.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}">{{ num }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+    
+                <!-- Botón para ir a la siguiente página -->
+                {% if analiticos.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ analiticos.next_page_number }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Siguiente">&rsaquo;</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ analiticos.paginator.num_pages }}{% for key, value in request.GET.items %}{% if key != 'page' %}&{{ key }}={{ value }}{% endif %}{% endfor %}" aria-label="Última">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    {% else %}
+    <p class="text-center">No hay registros de analíticos disponibles en este momento.</p>
+    {% endif %}
+</div>
+{% endblock %}

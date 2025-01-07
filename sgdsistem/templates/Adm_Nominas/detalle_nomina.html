@@ -1,0 +1,93 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %}Detalle de Nómina{% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+    <h2 class="text-center mb-4">Detalle de Nómina</h2>
+
+    <div class="card shadow-sm p-4 bg-light">
+        <a href="{% url 'nominas_home' %}" class="btn btn-link">Regresar</a>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th>RFC</th>
+                    <td>{{ nomina.rfc }}</td>
+                </tr>
+                <tr>
+                    <th>CURP</th>
+                    <td>{{ nomina.curp }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre</th>
+                    <td>{{ nomina.nombre }}</td>
+                </tr>
+                <tr>
+                    <th>Clave Plaza</th>
+                    <td>{{ nomina.cve_plaza }}</td>
+                </tr>
+                <tr>
+                    <th>Centro de Trabajo</th>
+                    <td>{{ nomina.ct }}</td>
+                </tr>
+                <tr>
+                    <th>Municipio</th>
+                    <td>{{ nomina.municipio }}</td>
+                </tr>
+                <tr>
+                    <th>Localidad</th>
+                    <td>{{ nomina.localidad }}</td>
+                </tr>
+                <tr>
+                    <th>NSS</th>
+                    <td>{{ nomina.nss }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de Ingreso</th>
+                    <td>{{ nomina.fech_ing }}</td>
+                </tr>
+                <tr>
+                    <th>Sexo</th>
+                    <td>{{ nomina.sexo }}</td>
+                </tr>
+                <tr>
+                    <th>Nivel CM</th>
+                    <td>{{ nomina.nivel_cm }}</td>
+                </tr>
+                <tr>
+                    <th>Status</th>
+                    <td>{{ nomina.status_p }}</td>
+                </tr>
+                <tr>
+                    <th>Motivo Plaza</th>
+                    <td>{{ nomina.mot_pla }}</td>
+                </tr>
+                <tr>
+                    <th>Quincena Pago</th>
+                    <td>{{ nomina.qna_pago }}</td>
+                </tr>
+                <tr>
+                    <th>Pago Desde</th>
+                    <td>{{ nomina.p_desde }}</td>
+                </tr>
+                <tr>
+                    <th>Pago Hasta</th>
+                    <td>{{ nomina.p_hasta }}</td>
+                </tr>
+                <tr>
+                    <th>Líquido</th>
+                    <td> $ {{ nomina.liquido }}</td>
+                </tr>
+                <tr>
+                    <th>CLABE</th>
+                    <td>{{ nomina.clabe }}</td>
+                </tr>
+                <tr>
+                    <th>Fuente</th>
+                    <td>{{ nomina.fuente }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

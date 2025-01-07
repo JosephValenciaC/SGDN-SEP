@@ -1,0 +1,51 @@
+{% extends 'shared/nav.html' %}
+{% block content %}
+<div class="container my-5">
+  <h2 class="text-center mb-4">Crear Nuevo Usuario</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar</button>
+    <a href="{% url 'usuarios' %}" class="btn btn-secondary">Cancelar</a>
+  </form>
+</div>
+
+<style>
+    label {
+        font-size: 18px;
+        color: blueviolet;
+    }
+    /* Estilo general para los select inputs */
+input {
+    appearance: none;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-radius: 17px;
+    padding: .7rem 1rem;
+    font-size: 1rem;
+    color: #495057;
+    width: 100%;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+/* Estilo al enfocar */
+input:focus {
+border-color: #80bdff; /* Borde azul */
+outline: none; /* Elimina el contorno predeterminado */
+box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Sombra azul clara */
+}
+
+/* Estilo para el icono de flecha (solo visible en algunos navegadores) */
+input::-ms-expand {
+display: none; /* Oculta el icono en IE/Edge */
+}
+
+/* Para select inputs en dispositivos móviles */
+@media (max-width: 576px) {
+select {
+font-size: 0.9rem; /* Ajusta el tamaño de la fuente */
+}
+}
+
+  </style>
+{% endblock %}

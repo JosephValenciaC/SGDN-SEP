@@ -1,0 +1,61 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %} Detalle de Persona {% endblock %}
+
+{% block content %}
+<div class="container-persona animated fadeIn">
+  <h2 class="text-center mb-4">Detalles de la Persona</h2>
+  <a type="button" href="{% url 'personas_home' %}" class="btn btn-link">Volver al listado</a>
+
+  <!-- Información personal de la persona -->
+  <div class="mt-4">
+    <h3>Información Personal</h3>
+    <ul class="list-group">
+      <li class="list-group-item"><strong>ID Persona:</strong> {{ persona.idpersona }}</li>
+      <li class="list-group-item"><strong>RFC:</strong> {{ persona.rfc }}</li>
+      <li class="list-group-item"><strong>CURP:</strong> {{ persona.curp }}</li>
+      <li class="list-group-item"><strong>Nombre:</strong> {{ persona.nombres }} {{ persona.apell_pat }} {{ persona.apell_mat }}</li>
+      <li class="list-group-item"><strong>Sexo:</strong> {{ persona.get_sexo_display }}</li>
+      <li class="list-group-item"><strong>NSS:</strong> {{ persona.nss }}</li>
+      <li class="list-group-item"><strong>CLABE:</strong> {{ persona.clabe }}</li>
+      <li class="list-group-item"><strong>Ingreso Gobierno:</strong> {{ persona.ing_gob }}</li>
+      <li class="list-group-item"><strong>Ingreso SEP:</strong> {{ persona.ing_sep }}</li>
+      <li class="list-group-item"><strong>Ingreso Rama:</strong> {{ persona.ing_rama }}</li>
+      <li class="list-group-item"><strong>Fecha de Creación:</strong> {{ persona.fecha_creacion }}</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .container-persona {
+    padding-top: 3em;
+    width: 100%;
+    max-width: 800px;
+    margin: 5em auto;
+  }
+
+  .form-control:disabled {
+    background-color: #f8f9fa;
+    cursor: not-allowed;
+  }
+
+  .list-group-item {
+    font-size: 1.1rem;
+    padding: 1.2em;
+  }
+
+  .list-group-item strong {
+    font-weight: bold;
+  }
+
+  .btn-link {
+    text-decoration: none;
+    color: #0d6efd;
+  }
+
+  .btn-link:hover {
+    text-decoration: underline;
+  }
+</style>
+
+{% endblock %}

@@ -1,104 +1,211 @@
 {% extends 'shared/nav.html' %}
-{% block titulo %} Inicio {% endblock %}
+{% block titulo %}Inicio{% endblock %}
 {% block content %}
 
-
 <style>
-  .container-home {
-    padding: 4em;
-    margin-top: 0em;
-    margin-bottom: 6em;
+  .card {
+    border: none;
+    border-radius: 1rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .card {
-    margin: 20px;
-    padding: 8px;
-    border-radius: 16px;
-    border: 2px solid #b38e5d;
+  .card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   }
+
+  .card-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  .btn-custom {
+    border-radius: 30px;
+    padding: 0.5rem 2rem;
+  }
+
+  .btn-primary:hover {
+    background-color: #004085;
+  }
+
+  /* Estilos para el modo oscuro */
+  body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+  }
+
+  .card.dark-mode {
+    background-color: #333333;
+    color: #e0e0e0;
+  }
+
+  .card-body.dark-mode {
+    background-color: #444444;
+    color: #e0e0e0;
+  }
+
+  .btn-custom.dark-mode {
+    background-color: #611232;
+    color: white;
+    border: none;
+  }
+
+  .btn-custom.dark-mode:hover {
+    background-color: #722643;
+    border: none;
+  }
+
+  h1{
+    color: var(--purple-dark);
+  }
+
+  .card-title{
+    font-size: 24px !important;
+  }
+
+  h1.dark-mode{
+  color: #e0e0e0 !important;
+}
+
 </style>
 
-<div class="animated fadeIn mt-4">
-  <div class="container-home">
-    <h2 class="text-center mb-4">Bienvenido al sistema de Administración de Nóminas y Plazas SEP MORELIA</h2>
+<div class="container">
+  <h1 class="text-center mb-5 fw-bold">
+    Bienvenido al Sistema de Administración de Nóminas y Plazas SEP MORELIA
+  </h1>
 
-    <!-- Contenedor de cuadros -->
-    <div class="row">
-      <!-- Primer cuadro -->
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-people-fill display-3 text-primary"></i>
-            <h4 class="card-title mt-3">Gestión de Empleados</h4>
-            <p class="card-text">Administra los datos del personal y sus plazas.</p>
-            <a href="/empleados/" class="btn btn-primary">Ir a Gestión</a>
-          </div>
-        </div>
-      </div>
+  <!-- Primera fila de tarjetas -->
+  <div class="row gy-4">
 
-      <!-- Segundo cuadro -->
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-file-earmark-text-fill display-3 text-success"></i>
-            <h4 class="card-title mt-3">Nóminas</h4>
-            <p class="card-text">Consulta y genera reportes de nóminas.</p>
-            <a href="/nominas/" class="btn btn-success">Ir a Nóminas</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tercer cuadro -->
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-gear-fill display-3 text-danger"></i>
-            <h4 class="card-title mt-3">Configuración</h4>
-            <p class="card-text">Ajusta las opciones del sistema y usuarios.</p>
-            <a href="/configuracion/" class="btn btn-danger">Ir a Configuración</a>
-          </div>
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-database card-icon"></i>
+          <h1 class="card-title">Consulta Global</h1>
+          <p class="card-text">Consulta todos los modulso en uno solo</p>
+          <a href="/consulta_global/" class="btn btn-custom">Ir a Consulta Global</a>
         </div>
       </div>
     </div>
 
-    <!-- Segunda fila -->
-    <div class="row">
-      <!-- Cuarto cuadro -->
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-bar-chart-fill display-3 text-warning"></i>
-            <h4 class="card-title mt-3">Reportes</h4>
-            <p class="card-text">Genera y exporta reportes detallados.</p>
-            <a href="/reportes/" class="btn btn-warning">Ir a Reportes</a>
-          </div>
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-file-earmark-text-fill card-icon"></i>
+          <h1 class="card-title">Nóminas</h1>
+          <p class="card-text">Consulta y genera reportes de nóminas.</p>
+          <a href="/nominas/" class="btn btn-custom">Ir a Nóminas</a>
         </div>
       </div>
+    </div>
 
-      <!-- Quinto cuadro -->
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-calendar-fill display-3 text-info"></i>
-            <h4 class="card-title mt-3">Calendario</h4>
-            <p class="card-text">Consulta eventos y fechas importantes.</p>
-            <a href="/calendario/" class="btn btn-info">Ir a Calendario</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sexto cuadro -->
-      <div class="col-md-4 mb-4">
-        <div class="card shadow-sm h-100">
-          <div class="card-body text-center">
-            <i class="bi bi-person-fill-lock display-3 text-secondary"></i>
-            <h4 class="card-title mt-3">Usuarios</h4>
-            <p class="card-text">Gestiona los roles y permisos del sistema.</p>
-            <a href="/usuarios/" class="btn btn-secondary">Ir a Usuarios</a>
-          </div>
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-graph-up card-icon"></i>
+          <h1 class="card-title">Analitico</h1>
+          <p class="card-text">Ajusta las opciones del sistema y usuarios.</p>
+          <a href="/analitico/" class="btn btn-custom">Ir al Analitico</a>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- Segunda fila de tarjetas -->
+  <div class="row gy-4 mt-4">
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-building-fill card-icon"></i>
+          <h1 class="card-title">Gestion de Plazas</h1>
+          <p class="card-text">Genera y exporta reportes detallados.</p>
+          <a href="/plazas/" class="btn btn-custom">Ir a Plazas</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-calendar-fill card-icon"></i>
+          <h1 class="card-title">Gestion MDP</h1>
+          <p class="card-text">Consulta eventos y fechas importantes.</p>
+          <a href="/mdp/" class="btn btn-custom">Ir a MDP</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-calendar-fill card-icon"></i>
+          <h1 class="card-title">Gestion Listas negras</h1>
+          <p class="card-text">Consulta eventos y fechas importantes.</p>
+          <a href="/lista_negra/" class="btn btn-custom">Ir a Lista negra</a>
+        </div>
+      </div>
+    </div>
+
+      <!-- Segunda fila de tarjetas -->
+
+
+  <div class="row gy-4 mt-4">
+
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-people-fill card-icon"></i>
+          <h1 class="card-title">Personas</h1>
+          <p class="card-text">Administra los datos del personal y sus plazas.</p>
+          <a href="{% url 'personas_home' %}" class="btn btn-custom">Ir a Gestión</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-bar-chart-fill card-icon"></i>
+          <h1 class="card-title">Reportes</h1>
+          <p class="card-text">Genera y exporta reportes detallados.</p>
+          <a href="/reportes/" class="btn btn-custom">Ir a Reportes</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="bi bi-calendar-fill card-icon"></i>
+          <h1 class="card-title">Calendario</h1>
+          <p class="card-text">Consulta eventos y fechas importantes.</p>
+          <a href="/calendario/" class="btn btn-custom">Ir a Calendario</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-person-fill-lock card-icon"></i>
+        <h1 class="card-title">Usuarios</h1>
+        <p class="card-text">Gestiona los roles y permisos del sistema.</p>
+        <a href="{% url 'usuarios' %}" class="btn btn-custom">Ir a Usuarios</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card text-center shadow-sm">
+      <div class="card-body">
+        <i class="bi bi-gear-fill card-icon"></i>
+        <h1 class="card-title">Configuración</h1>
+        <p class="card-text">Ajusta las opciones del sistema y usuarios.</p>
+        <a href="/configuracion/" class="btn btn-custom">Ir a Configuración</a>
+      </div>
+    </div>
+  </div>
+
 </div>
 {% endblock %}

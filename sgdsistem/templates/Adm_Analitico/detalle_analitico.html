@@ -1,0 +1,179 @@
+{% extends 'shared/nav.html' %}
+
+{% block titulo %}Detalle Analitico{% endblock %}
+
+{% block content %}
+<div class="container animated fadeIn"><br>
+    <h2 class="text-center mb-4">Detalle Analitico</h2>
+
+
+    <div class="card shadow-sm p-4 bg-light">
+        <a href="{% url 'analitico_home' %}" class="btn btn-link">Regresar</a>
+        <table class="table table-bordered">
+            <tbody>
+                    <tr>
+                        <th>Llave</th>
+                        <td>{{ analiticos.llave }}</td>
+                    </tr>
+                    <tr>
+                        <th>Reporte Pago 2421</th>
+                        <td>{{ analiticos.reporte_pago_2421 }}</td>
+                    </tr>
+                    <tr>
+                        <th>Num</th>
+                        <td>{{ analiticos.num }}</td>
+                    </tr>
+                    <tr>
+                        <th>Centro de Trabajo</th>
+                        <td>{{ analiticos.ct }}</td>
+                    </tr>
+                    <tr>
+                        <th>Zona FONE</th>
+                        <td>{{ analiticos.zona_fone }}</td>
+                    </tr>
+                    <tr>
+                        <th>CT FONE</th>
+                        <td>{{ analiticos.ct_fone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nivel CT</th>
+                        <td>{{ analiticos.nivel_ct }}</td>
+                    </tr>
+                    <tr>
+                        <th>Clave Clasificador</th>
+                        <td>{{ analiticos.cve_clasificador }}</td>
+                    </tr>
+                    <tr>
+                        <th>Clave Plaza Estado</th>
+                        <td>{{ analiticos.cve_plaza_edo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Clave Plaza Sin Esp</th>
+                        <td>{{ analiticos.cve_plaza_sin_esp }}</td>
+                    </tr>
+                    <tr>
+                        <th>Clave Plaza FONE</th>
+                        <td>{{ analiticos.cve_plaza_fone }}</td>
+                    </tr>
+                    <tr>
+                        <th>Unidad/Subunidad</th>
+                        <td>{{ analiticos.unid_subunid }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nivel Educativo</th>
+                        <td>{{ analiticos.nivel_educ }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha Creación</th>
+                        <td>{{ analiticos.fecha_crea }}</td>
+                    </tr>
+                    <tr>
+                        <th>Categoría</th>
+                        <td>{{ analiticos.categoria }}</td>
+                    </tr>
+                    <tr>
+                        <th>Base Conf</th>
+                        <td>{{ analiticos.base_conf }}</td>
+                    </tr>
+                    <tr>
+                        <th>USICAMM</th>
+                        <td>{{ analiticos.usicamm }}</td>
+                    </tr>
+                    <tr>
+                        <th>Descripción</th>
+                        <td>{{ analiticos.descripcion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nivel Puesto</th>
+                        <td>{{ analiticos.nivel_pto }}</td>
+                    </tr>
+                    <tr>
+                        <th>Tipo de Plaza</th>
+                        <td>{{ analiticos.tipo_plaza }}</td>
+                    </tr>
+                    <tr>
+                        <th>Plazas</th>
+                        <td>{{ analiticos.plazas }}</td>
+                    </tr>
+                    <tr>
+                        <th>Horas</th>
+                        <td>{{ analiticos.horas }}</td>
+                    </tr>
+                    <tr>
+                        <th>Modelo</th>
+                        <td>{{ analiticos.modelo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fortalecimiento</th>
+                        <td>{{ analiticos.fortalecim }}</td>
+                    </tr>
+                    <tr>
+                        <th>Directivas</th>
+                        <td>{{ analiticos.directivas }}</td>
+                    </tr>
+                    <tr>
+                        <th>Programa</th>
+                        <td>{{ analiticos.programa }}</td>
+                    </tr>
+                    <tr>
+                        <th>Subprograma</th>
+                        <td>{{ analiticos.sub_prog }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nivel CM</th>
+                        <td>{{ analiticos.nivel_cm }}</td>
+                    </tr>
+                    <tr>
+                        <th>Zona Económica</th>
+                        <td>{{ analiticos.zona_eco }}</td>
+                    </tr>
+                    <tr>
+                        <th>Zonas Iguales</th>
+                        <td>{{ analiticos.zonas_iguales }}</td>
+                    </tr>
+                    <tr>
+                        <th>Desde</th>
+                        <td>{{ analiticos.desde }}</td>
+                    </tr>
+                    <tr>
+                        <th>Hasta</th>
+                        <td>{{ analiticos.hasta }}</td>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <td>{{ analiticos.status }}</td>
+                    </tr>
+                    <tr>
+                        <th>Motivo</th>
+                        <td>{{ analiticos.motivo }}</td>
+                    </tr>
+                    <tr>
+                        <th>RFC</th>
+                        <td>{{ analiticos.rfc }}</td>
+                    </tr>
+                    <tr>
+                        <th>CURP</th>
+                        <td>{{ analiticos.curp }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nombre</th>
+                        <td>{{ analiticos.nombre }}</td>
+                    </tr>
+                    <tr>
+                        <th>Apellido Paterno</th>
+                        <td>{{ analiticos.paterno }}</td>
+                    </tr>
+                    <tr>
+                        <th>Apellido Materno</th>
+                        <td>{{ analiticos.materno }}</td>
+                    </tr>
+                    <tr>
+                        <th>Nombres</th>
+                        <td>{{ analiticos.nombres }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
